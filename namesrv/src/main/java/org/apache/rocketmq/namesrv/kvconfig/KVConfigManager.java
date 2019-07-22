@@ -40,7 +40,7 @@ public class KVConfigManager {
     public KVConfigManager(NamesrvController namesrvController) {
         this.namesrvController = namesrvController;
     }
-
+    // name server 初始化调用，从kv配置路径获取配置信息
     public void load() {
         String content = null;
         try {
@@ -86,7 +86,7 @@ public class KVConfigManager {
 
         this.persist();
     }
-
+    // 持久化configTable到配置路径
     public void persist() {
         try {
             this.lock.readLock().lockInterruptibly();
@@ -168,7 +168,7 @@ public class KVConfigManager {
 
         return null;
     }
-
+    // 定时打印configTable中内容，定时任务在NamesrvController中创建
     public void printAllPeriodically() {
         try {
             this.lock.readLock().lockInterruptibly();

@@ -51,7 +51,7 @@ public class ScheduleMessageService extends ConfigManager {
     private static final long FIRST_DELAY_TIME = 1000L;
     private static final long DELAY_FOR_A_WHILE = 100L;
     private static final long DELAY_FOR_A_PERIOD = 10000L;
-
+    // 延迟级别对应的延迟时间，level从1开始
     private final ConcurrentMap<Integer /* level */, Long/* delay timeMillis */> delayLevelTable =
         new ConcurrentHashMap<Integer, Long>(32);
 
@@ -188,7 +188,7 @@ public class ScheduleMessageService extends ConfigManager {
         delayOffsetSerializeWrapper.setOffsetTable(this.offsetTable);
         return delayOffsetSerializeWrapper.toJson(prettyFormat);
     }
-
+    // 通过设置的messageDelayLevel解析成延迟级别，并且计算级别对应的延迟时间存入delayLevelTable
     public boolean parseDelayLevel() {
         HashMap<String, Long> timeUnitTable = new HashMap<String, Long>();
         timeUnitTable.put("s", 1000L);
