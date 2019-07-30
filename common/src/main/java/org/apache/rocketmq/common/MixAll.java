@@ -293,7 +293,7 @@ public class MixAll {
 
         return properties;
     }
-
+    // 把object中field转成键值对
     public static Properties object2Properties(final Object object) {
         Properties properties = new Properties();
 

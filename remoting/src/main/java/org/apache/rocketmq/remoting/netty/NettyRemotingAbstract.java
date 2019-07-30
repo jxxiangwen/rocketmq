@@ -557,7 +557,7 @@ public abstract class NettyRemotingAbstract {
     class NettyEventExecutor extends ServiceThread {
         private final LinkedBlockingQueue<NettyEvent> eventQueue = new LinkedBlockingQueue<NettyEvent>();
         private final int maxSize = 10000;
-
+        // 使用maxSize控制大小的好处就是如果使用LinkedBlockingQueue初始化大小那么放不进去就会抛错，而粗略的使用maxSize就不存在这个问题
         public void putNettyEvent(final NettyEvent event) {
             if (this.eventQueue.size() <= maxSize) {
                 this.eventQueue.add(event);
