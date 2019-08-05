@@ -443,7 +443,7 @@ public class RouteInfoManager {
             }
         }
     }
-    // BrokerHousekeepingService会调用
+    // BrokerHousekeepingService会调用,scanNotActiveBroker也会调用
     public void onChannelDestroy(String remoteAddr, Channel channel) {
         String brokerAddrFound = null;
         if (channel != null) {

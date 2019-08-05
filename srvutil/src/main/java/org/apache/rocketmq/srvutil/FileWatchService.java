@@ -71,7 +71,7 @@ public class FileWatchService extends ServiceThread {
 
                 for (int i = 0; i < watchFiles.size(); i++) {
                     String newHash;
-                    try {
+                    try {// 计算文件md5值比对，会使用文件内容
                         newHash = hash(watchFiles.get(i));
                     } catch (Exception ignored) {
                         log.warn(this.getServiceName() + " service has exception when calculate the file hash. ", ignored);

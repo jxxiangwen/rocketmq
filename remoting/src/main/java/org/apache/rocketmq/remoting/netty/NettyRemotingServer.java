@@ -203,8 +203,8 @@ public class NettyRemotingServer extends NettyRemotingAbstract implements Remoti
                             .addLast(defaultEventExecutorGroup, HANDSHAKE_HANDLER_NAME,
                                 new HandshakeHandler(TlsSystemConfig.tlsMode))
                             .addLast(defaultEventExecutorGroup,
-                                new NettyEncoder(),
-                                new NettyDecoder(),
+                                new NettyEncoder(), // 将RemotingCommand写到channel
+                                new NettyDecoder(), // 从channel读取RemotingCommand
                                 new IdleStateHandler(0, 0, nettyServerConfig.getServerChannelMaxIdleTimeSeconds()),
                                 new NettyConnectManageHandler(),
                                 new NettyServerHandler()
@@ -227,7 +227,7 @@ public class NettyRemotingServer extends NettyRemotingAbstract implements Remoti
         if (this.channelEventListener != null) {
             this.nettyEventExecutor.start();
         }
-
+        // 每秒执行一次请求检查，如果已经过了超时时间一秒还没有结束就主动结束
         this.timer.scheduleAtFixedRate(new TimerTask() {
 
             @Override
@@ -352,7 +352,7 @@ public class NettyRemotingServer extends NettyRemotingAbstract implements Remoti
             msg.markReaderIndex();
 
             byte b = msg.getByte(0);
-
+            // ssl处理
             if (b == HANDSHAKE_MAGIC_CODE) {
                 switch (tlsMode) {
                     case DISABLED:
@@ -390,7 +390,7 @@ public class NettyRemotingServer extends NettyRemotingAbstract implements Remoti
             } catch (NoSuchElementException e) {
                 log.error("Error while removing HandshakeHandler", e);
             }
-
+            // 传递下去
             // Hand over this message to the next .
             ctx.fireChannelRead(msg.retain());
         }

@@ -54,7 +54,7 @@ public class NamesrvController {
     private RemotingServer remotingServer;
 
     private BrokerHousekeepingService brokerHousekeepingService;
-
+    // 用来处理默认请求
     private ExecutorService remotingExecutor;
 
     private Configuration configuration;
@@ -83,7 +83,7 @@ public class NamesrvController {
             Executors.newFixedThreadPool(nettyServerConfig.getServerWorkerThreads(), new ThreadFactoryImpl("RemotingExecutorThread_"));
 
         this.registerProcessor();
-
+        // 每10秒扫描一次broker,如果上一次消息在2分钟以前就关闭broker
         this.scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
 
             @Override
@@ -91,7 +91,7 @@ public class NamesrvController {
                 NamesrvController.this.routeInfoManager.scanNotActiveBroker();
             }
         }, 5, 10, TimeUnit.SECONDS);
-
+        // 每10分钟打印一次目前的kv
         this.scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
 
             @Override
