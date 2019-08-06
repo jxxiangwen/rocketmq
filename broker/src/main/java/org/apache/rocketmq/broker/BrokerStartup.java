@@ -89,11 +89,11 @@ public class BrokerStartup {
 
     public static BrokerController createBrokerController(String[] args) {
         System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, Integer.toString(MQVersion.CURRENT_VERSION));
-
+        // 默认128kb
         if (null == System.getProperty(NettySystemConfig.COM_ROCKETMQ_REMOTING_SOCKET_SNDBUF_SIZE)) {
             NettySystemConfig.socketSndbufSize = 131072;
         }
-
+        // 默认128kb
         if (null == System.getProperty(NettySystemConfig.COM_ROCKETMQ_REMOTING_SOCKET_RCVBUF_SIZE)) {
             NettySystemConfig.socketRcvbufSize = 131072;
         }
@@ -108,6 +108,7 @@ public class BrokerStartup {
             }
 
             final BrokerConfig brokerConfig = new BrokerConfig();
+            brokerConfig.setRocketmqHome("/home/jxxiangwen/software/rocketmq");
             final NettyServerConfig nettyServerConfig = new NettyServerConfig();
             final NettyClientConfig nettyClientConfig = new NettyClientConfig();
 
@@ -243,7 +244,7 @@ public class BrokerStartup {
             return controller;
         } catch (Throwable e) {
             e.printStackTrace();
-            System.exit(-1);
+             System.exit(-1);
         }
 
         return null;
