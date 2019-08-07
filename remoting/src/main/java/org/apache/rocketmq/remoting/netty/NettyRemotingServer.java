@@ -278,7 +278,7 @@ public class NettyRemotingServer extends NettyRemotingAbstract implements Remoti
             rpcHooks.add(rpcHook);
         }
     }
-
+    // server都是通过注册处理器来实现不同功能
     @Override
     public void registerProcessor(int requestCode, NettyRequestProcessor processor, ExecutorService executor) {
         ExecutorService executorThis = executor;

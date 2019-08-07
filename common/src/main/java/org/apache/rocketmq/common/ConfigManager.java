@@ -25,7 +25,7 @@ public abstract class ConfigManager {
     private static final InternalLogger log = InternalLoggerFactory.getLogger(LoggerName.COMMON_LOGGER_NAME);
 
     public abstract String encode();
-
+    // 通过配置文件加载配置,一般都在初始化的时候调用
     public boolean load() {
         String fileName = null;
         try {
@@ -46,7 +46,7 @@ public abstract class ConfigManager {
     }
 
     public abstract String configFilePath();
-
+    // 加载bak文件
     private boolean loadBak() {
         String fileName = null;
         try {
